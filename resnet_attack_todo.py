@@ -63,8 +63,7 @@ class ResnetPGDAttacker:
             pass  # TODO
             # Projection step
             pass  # TODO
-            # Clip image values between 0 and 1
-            adv_images = torch.clamp(adv_images, min=0, max=1).detach()
+            adv_images = adv_images.detach()
 
         return adv_images
 
