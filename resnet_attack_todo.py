@@ -63,6 +63,7 @@ class ResnetPGDAttacker:
             pass  # TODO
             # Projection step
             pass  # TODO
+            # Clip image values between 0 and 1
             adv_images = adv_images.detach()
 
         return adv_images
@@ -85,6 +86,7 @@ class ResnetPGDAttacker:
         correct = 0
         total = 0
         adv_images_lst = []
+        labels_lst = []
         for i, inputs in enumerate(tqdm(self.dataloader, total=batch_num)):
             if i == batch_num:
                 break
@@ -98,8 +100,10 @@ class ResnetPGDAttacker:
             adv_correct += torch.sum(adv_predictions == labels).item()
             correct += torch.sum(predictions == labels).item()
             total += len(labels)
+            labels_lst.append(labels)
             adv_images_lst.append(adv_images)
         self.adv_images = torch.cat(adv_images_lst).cpu()
+        self.labels = torch.cat(labels_lst).cpu()
         self.acc = correct / total
         self.adv_acc = adv_correct / total
 
