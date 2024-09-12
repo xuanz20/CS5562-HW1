@@ -63,7 +63,6 @@ class ResnetPGDAttacker:
             pass  # TODO
             # Projection step
             pass  # TODO
-            # Clip image values between 0 and 1
             adv_images = adv_images.detach()
 
         return adv_images
