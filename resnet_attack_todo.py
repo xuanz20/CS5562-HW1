@@ -48,6 +48,7 @@ class ResnetPGDAttacker:
 
         # Starting at a uniformly random point within eps ball
         pass  # TODO
+        adv_images = adv_images + torch.zeros_like(adv_images).uniform_(-eps, eps)
 
         for _ in range(steps):
             adv_images.requires_grad = True
@@ -61,8 +62,13 @@ class ResnetPGDAttacker:
             adv_images = adv_images.detach()
             # Gradient update
             pass  # TODO
+            adv_images = adv_images.detach() + alpha * grad.sign()
+
             # Projection step
             pass  # TODO
+            perturbation = torch.clamp(adv_images - images, min=-eps, max=eps)
+            adv_images = images.clone().detach() + perturbation
+            
             adv_images = adv_images.detach()
 
         return adv_images
